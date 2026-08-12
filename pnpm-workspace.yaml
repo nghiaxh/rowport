@@ -1,0 +1,19 @@
+allowBuilds:
+  electron: true
+  electron-winstaller: true
+  esbuild: true
+  better-sqlite3: true
+  '@napi-rs/keyring': true
+  cpu-features: true
+  protobufjs: true
+  ssh2: true
+  node-pty: false
+
+onlyBuiltDependencies:
+  - electron
+  - esbuild
+  - better-sqlite3
+  - '@napi-rs/keyring'
+  - cpu-features
+  - protobufjs
+  - ssh2
