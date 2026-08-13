@@ -1,0 +1,223 @@
+@import '@heroui/styles';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/jetbrains-mono';
+@import '@fontsource-variable/fira-code';
+
+@theme inline {
+  --font-sans: var(
+    --ui-font,
+    'Inter Variable',
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif
+  );
+  --font-mono: var(
+    --code-font,
+    ui-monospace,
+    'Cascadia Code',
+    'JetBrains Mono',
+    'Fira Code',
+    Consolas,
+    'Courier New',
+    monospace
+  );
+
+  --color-app-bg: var(--bg-primary);
+  --color-app-bg-muted: var(--bg-secondary);
+  --color-app-bg-soft: var(--bg-tertiary);
+  --color-app-edge: var(--border-default);
+  --color-app-fg: var(--text-primary);
+  --color-app-fg-muted: var(--text-secondary);
+  --color-app-fg-soft: var(--text-tertiary);
+  --color-app-accent: var(--accent);
+  --color-app-accent-fg: var(--accent-fg);
+  --color-app-success: var(--success);
+  --color-app-warning: var(--warning);
+  --color-app-danger: var(--danger);
+  --color-app-info: var(--info);
+}
+
+@layer base {
+  :root,
+  [data-theme='light'] {
+    color-scheme: light;
+
+    --editor-font-size: 12.5px;
+
+    --ui-font:
+      'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --code-font:
+      ui-monospace, 'Cascadia Code', 'JetBrains Mono', 'Fira Code', Consolas, 'Courier New',
+      monospace;
+
+    --scrollbar-thumb: color-mix(in srgb, var(--text-primary) 25%, transparent);
+    --scrollbar-thumb-hover: color-mix(in srgb, var(--text-primary) 40%, transparent);
+    --scrollbar-track: transparent;
+
+    --bg-primary: #ffffff;
+    --bg-secondary: #f7f7f7;
+    --bg-tertiary: #ececec;
+    --border-default: #e0e0e0;
+    --text-primary: #0a0a0a;
+    --text-secondary: #6b6b6b;
+    --text-tertiary: #a0a0a0;
+
+    --accent: #0a0a0a;
+    --accent-fg: #ffffff;
+    --accent-foreground: var(--accent-fg);
+
+    --success: #16a34a;
+    --warning: #d97706;
+    --danger: #dc2626;
+    --info: #2563eb;
+
+    --background: #ffffff;
+    --foreground: #0a0a0a;
+    --surface: #ffffff;
+    --surface-secondary: #f7f7f7;
+    --surface-tertiary: #ececec;
+    --overlay: #ffffff;
+    --overlay-foreground: #0a0a0a;
+    --muted: #6b6b6b;
+    --default: #ececec;
+    --default-foreground: #0a0a0a;
+    --field-background: #ffffff;
+    --field-foreground: #0a0a0a;
+    --field-border: #e0e0e0;
+    --border: #e0e0e0;
+    --separator: #ececec;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark;
+
+    --overlay-shadow:
+      0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 12px 32px 0 rgba(0, 0, 0, 0.6),
+      0 0 1px 0 rgba(255, 255, 255, 0.08);
+
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #141414;
+    --bg-tertiary: #1e1e1e;
+    --border-default: #2a2a2a;
+    --text-primary: #f5f5f5;
+    --text-secondary: #a0a0a0;
+    --text-tertiary: #6b6b6b;
+
+    --accent: #f5f5f5;
+    --accent-fg: #0a0a0a;
+    --accent-foreground: var(--accent-fg);
+
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --info: #3b82f6;
+
+    --background: #0a0a0a;
+    --foreground: #f5f5f5;
+    --surface: #141414;
+    --surface-secondary: #1c1c1c;
+    --surface-tertiary: #242424;
+    --overlay: #141414;
+    --overlay-foreground: #f5f5f5;
+    --muted: #a0a0a0;
+    --default: #242424;
+    --default-foreground: #f5f5f5;
+    --field-background: #141414;
+    --field-foreground: #f5f5f5;
+    --field-border: #2a2a2a;
+    --border: #2a2a2a;
+    --separator: #242424;
+
+    --scrollbar-thumb: color-mix(in srgb, var(--text-primary) 25%, transparent);
+    --scrollbar-thumb-hover: color-mix(in srgb, var(--text-primary) 40%, transparent);
+    --scrollbar-track: transparent;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  select:not(:disabled),
+  input[type='checkbox'],
+  input[type='radio'] {
+    cursor: pointer;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--accent-fg);
+  }
+}
+
+html.animations-off *,
+html.animations-off *::before,
+html.animations-off *::after {
+  /* biome-ignore lint/complexity/noImportantStyles: force-disable transitions for reduced motion */
+  transition: none !important;
+  /* biome-ignore lint/complexity/noImportantStyles: force-disable animations for reduced motion */
+  animation: none !important;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.modal__backdrop::-webkit-scrollbar,
+.alert-dialog__backdrop::-webkit-scrollbar {
+  display: none;
+}
+
+.app-drag-region {
+  -webkit-app-region: drag;
+}
+
+.app-no-drag {
+  -webkit-app-region: no-drag;
+}
+
+[data-theme='dark'] .react-flow__controls-button {
+  --xy-controls-button-color: #0a0a0a;
+  --xy-controls-button-color-hover: #0a0a0a;
+}
+
+[data-theme='dark'] .react-flow {
+  --xy-edge-label-background-color: #0a0a0a;
+  --xy-edge-label-color: #f5f5f5;
+}
