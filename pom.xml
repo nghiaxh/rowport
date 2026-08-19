@@ -29,7 +29,7 @@
         <lib.rsyntaxtextarea.version>3.5.4</lib.rsyntaxtextarea.version>
         <lib.gson.version>2.11.0</lib.gson.version>
 
-        <lib.postgresql.version>42.7.4</lib.postgresql.version>
+        <lib.postgresql.version>42.7.12</lib.postgresql.version>
         <lib.mysql.version>9.1.0</lib.mysql.version>
         <lib.sqlite.version>3.46.0.0</lib.sqlite.version>
         <lib.mongo.version>5.1.4</lib.mongo.version>
