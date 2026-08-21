@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { spawn, spawnSync } from 'node:child_process'
+import { existsSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolve } from 'node:path'
 import { buildSync } from 'esbuild'
@@ -44,6 +45,14 @@ function bundlePreload() {
 async function main() {
   compileMainAndPreload()
   bundlePreload()
+
+  const mainEntry = resolve(root, 'dist/main/index.js')
+  if (!existsSync(mainEntry)) {
+    console.error(
+      `[dev] Main entry not found at ${mainEntry}. Run \`pnpm build:main\` and fix any compile errors first.`
+    )
+    process.exit(1)
+  }
 
   const server = await createServer({ configFile: resolve(root, 'vite.config.ts') })
   await server.listen()
