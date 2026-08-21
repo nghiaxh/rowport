@@ -62,7 +62,7 @@ export function HistoryDetailModal({
             <Modal.Heading>{t('history.detailsTitle')}</Modal.Heading>
             <Modal.CloseTrigger onPress={onClose} />
           </Modal.Header>
-          <Modal.Body className="!mt-4">
+          <Modal.Body className="mt-4!">
             <div className="space-y-4">
               <div className="flex items-center gap-2 flex-wrap">
                 <span
