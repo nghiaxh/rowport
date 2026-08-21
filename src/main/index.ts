@@ -2,10 +2,10 @@ import { app, shell, BrowserWindow } from 'electron'
 import { join } from 'node:path'
 import { existsSync, readFileSync } from 'node:fs'
 import windowStateKeeper from 'electron-window-state'
-import { registerIpc, mongoManager } from './ipc/register'
-import { closeAppDb } from './ipc/metadata'
-import { clearConnections } from './db/connections'
-import { IPC_CHANNELS } from '../shared/rowport-api'
+import { registerIpc, mongoManager } from './ipc/register.js'
+import { closeAppDb } from './ipc/metadata.js'
+import { clearConnections } from './db/connections.js'
+import { IPC_CHANNELS } from '../shared/rowport-api.js'
 
 if (process.env.ROWPORT_USER_DATA) {
   app.setPath('userData', process.env.ROWPORT_USER_DATA)

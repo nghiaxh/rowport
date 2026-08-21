@@ -1,5 +1,5 @@
 import Database from 'better-sqlite3'
-import { QueryCancelledError } from '../../shared/errors'
+import { QueryCancelledError } from '../../shared/errors.js'
 
 export interface SqliteConnection {
   kind: 'sqlite'

@@ -1,5 +1,5 @@
 import { ipcMain, BrowserWindow } from 'electron'
-import { IPC_CHANNELS } from '../../shared/rowport-api'
+import { IPC_CHANNELS } from '../../shared/rowport-api.js'
 import {
   appDbSelectArgsSchema,
   connectionIdSchema,
@@ -15,8 +15,8 @@ import {
   sqlConnectArgsSchema,
   sqlConnectSchema,
   sqlSelectArgsSchema
-} from '../../shared/validation'
-import { parseOrThrow } from './validate'
+} from '../../shared/validation/index.js'
+import { parseOrThrow } from './validate.js'
 import { randomUUID } from 'node:crypto'
 import {
   cancelSql,
@@ -27,16 +27,16 @@ import {
   runWithQueryControl,
   selectSql,
   testSql
-} from '../db/connections'
-import { MongoManager } from '../db/mongodb'
-import { appDbExecute, appDbSelect } from './metadata'
-import * as keychain from './keychain'
-import * as detect from './detect'
-import * as settings from './settings'
-import * as fsDialog from './fs-dialog'
-import * as clipboardApi from './clipboard'
-import * as appApi from './app'
-import { registerAssistantHandlers } from './assistant'
+} from '../db/connections.js'
+import { MongoManager } from '../db/mongodb.js'
+import { appDbExecute, appDbSelect } from './metadata.js'
+import * as keychain from './keychain.js'
+import * as detect from './detect.js'
+import * as settings from './settings.js'
+import * as fsDialog from './fs-dialog.js'
+import * as clipboardApi from './clipboard.js'
+import * as appApi from './app.js'
+import { registerAssistantHandlers } from './assistant.js'
 
 export const mongoManager = new MongoManager()
 

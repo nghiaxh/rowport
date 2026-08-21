@@ -1,6 +1,6 @@
 import { dialog, type BrowserWindow } from 'electron'
 import { readFile, writeFile } from 'node:fs/promises'
-import type { OpenDialogOptions, SaveDialogOptions } from '../../shared/rowport-api'
+import type { OpenDialogOptions, SaveDialogOptions } from '../../shared/rowport-api.js'
 
 export async function showOpenDialog(
   parent: BrowserWindow | null,

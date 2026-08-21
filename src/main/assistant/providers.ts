@@ -1,4 +1,4 @@
-import type { AssistantMessage } from '../../shared/assistant-api'
+import type { AssistantMessage } from '../../shared/assistant-api.js'
 
 export interface AssistantProvider {
   chat(messages: AssistantMessage[], model: string): Promise<string>

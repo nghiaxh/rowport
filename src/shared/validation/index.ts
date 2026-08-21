@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import type { SqlDbType } from '../rowport-api'
+import type { SqlDbType } from '../rowport-api.js'
 
 const nullableString = z.string().nullable().optional()
 

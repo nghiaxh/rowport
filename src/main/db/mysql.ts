@@ -1,5 +1,5 @@
 import mysql from 'mysql2/promise'
-import { QueryCancelledError } from '../../shared/errors'
+import { QueryCancelledError } from '../../shared/errors.js'
 
 export interface MysqlConnection {
   kind: 'mysql'

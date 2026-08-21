@@ -5,8 +5,8 @@ import {
   sqliteExecute,
   sqliteSelect,
   type SqliteConnection
-} from '../db/sqlite'
-import { setAppDbPath } from '../db/connections'
+} from '../db/sqlite.js'
+import { setAppDbPath } from '../db/connections.js'
 
 let appDb: SqliteConnection | null = null
 

@@ -1,7 +1,7 @@
 import { ipcMain } from 'electron'
-import { IPC_CHANNELS } from '../../shared/rowport-api'
-import type { AssistantMessage } from '../../shared/assistant-api'
-import { OllamaProvider, OpenAiProvider, type AssistantProvider } from '../assistant/providers'
+import { IPC_CHANNELS } from '../../shared/rowport-api.js'
+import type { AssistantMessage } from '../../shared/assistant-api.js'
+import { OllamaProvider, OpenAiProvider, type AssistantProvider } from '../assistant/providers.js'
 
 function getProvider(
   providerType: string,

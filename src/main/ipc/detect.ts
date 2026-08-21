@@ -1,5 +1,5 @@
 import { connect } from 'node:net'
-import type { DetectedServer } from '../../shared/rowport-api'
+import type { DetectedServer } from '../../shared/rowport-api.js'
 
 const PROBES: Array<[string, number]> = [
   ['postgres', 5432],

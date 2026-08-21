@@ -6,7 +6,7 @@ import {
   type OpenDialogOptions,
   type SaveDialogOptions,
   type MongoFindOptions
-} from '../shared/rowport-api'
+} from '../shared/rowport-api.js'
 
 const api: RowportApi = {
   platform: process.platform,

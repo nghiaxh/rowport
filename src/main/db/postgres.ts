@@ -1,5 +1,5 @@
 import pg from 'pg'
-import { QueryCancelledError } from '../../shared/errors'
+import { QueryCancelledError } from '../../shared/errors.js'
 
 const { Pool } = pg
 

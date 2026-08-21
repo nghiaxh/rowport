@@ -1,11 +1,11 @@
 import { resolve } from 'node:path'
-import type { SqlConnectPayload } from '../../shared/rowport-api'
+import type { SqlConnectPayload } from '../../shared/rowport-api.js'
 import {
   createSqliteConnection,
   sqliteSelect,
   sqliteExecute,
   type SqliteConnection
-} from './sqlite'
+} from './sqlite.js'
 import {
   createPostgresConnection,
   postgresSelect,
@@ -14,7 +14,7 @@ import {
   postgresListDatabases,
   type PostgresConnection,
   type PostgresConnectPayload
-} from './postgres'
+} from './postgres.js'
 import {
   createMysqlConnection,
   mysqlSelect,
@@ -23,7 +23,7 @@ import {
   mysqlListDatabases,
   type MysqlConnection,
   type MysqlConnectPayload
-} from './mysql'
+} from './mysql.js'
 
 type LiveConnection = SqliteConnection | PostgresConnection | MysqlConnection
 
