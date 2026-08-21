@@ -95,7 +95,7 @@ export function SchemaPanel(): ReactElement {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center gap-1.5 border-b border-app-edge px-3 py-2">
+      <div className="flex h-11 shrink-0 items-center gap-1.5 border-b border-app-edge px-3">
         <Database size={13} className="text-app-fg-muted" />
         <span className="flex-1 truncate text-xs font-semibold text-app-fg">
           {active ? active.name : t('schema.database')}
@@ -105,7 +105,7 @@ export function SchemaPanel(): ReactElement {
             type="button"
             title={t('schema.refreshSchema')}
             onClick={handleRefresh}
-            className="flex size-7 items-center justify-center rounded text-app-fg-soft transition-colors hover:bg-app-bg-soft hover:text-app-fg"
+            className="flex size-6 items-center justify-center rounded text-app-fg-soft transition-colors hover:bg-app-bg-soft hover:text-app-fg"
           >
             <ArrowsClockwise size={13} className={cn(loading && 'animate-spin')} />
           </button>

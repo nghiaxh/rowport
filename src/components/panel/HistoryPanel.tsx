@@ -85,14 +85,14 @@ export function HistoryPanel(): ReactElement {
   return (
     <>
       <div className="flex h-full flex-col">
-        <div className="flex items-center gap-1.5 border-b border-app-edge px-3 py-2">
+        <div className="flex h-11 shrink-0 items-center gap-1.5 border-b border-app-edge px-3">
           <List size={13} className="text-app-fg-muted" />
           <span className="flex-1 text-xs font-semibold text-app-fg">{t('history.title')}</span>
           {entries.length > 0 && (
             <button
               type="button"
               onClick={() => void clear()}
-              className="text-[10px] text-app-fg-soft hover:text-app-danger"
+              className="flex size-6 items-center justify-center rounded text-[10px] text-app-fg-soft transition-colors hover:bg-app-bg-soft hover:text-app-danger"
             >
               {t('history.clear')}
             </button>
