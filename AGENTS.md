@@ -13,7 +13,7 @@ Electron desktop app for multi-database workflows (PostgreSQL, MySQL, SQLite, Mo
 - `pnpm test:unit` — Vitest unit tests (`tests/unit/`)
 - `pnpm test:integration` — Vitest integration tests (`tests/integration/`); container-based tests need Docker
 - `pnpm test` — all Vitest tests (unit + integration)
-- `pnpm test:e2e` — Playwright e2e suite (`tests/e2e/`); builds the app first, then launches Electron
+- `pnpm test:e2e` — Playwright e2e suite (`tests/e2e/`); runs `build:main`, `build:preload`, `build:renderer` first (no typecheck), then launches Electron
 
 Verification is `pnpm lint && pnpm typecheck && pnpm test`.
 
@@ -46,12 +46,14 @@ Renderer code calls through wrappers in `src/lib/electron-api.ts` (e.g. `keychai
 
 - SQL live connections (postgres/mysql/sqlite) are held in a `Map` keyed by connection id in `src/main/db/connections.ts`; drivers in `src/main/db/`
 - App metadata (saved connections, settings) lives in a SQLite app db at `app.getPath('userData')/app.db`, accessed via `src/main/ipc/metadata.ts`
+- Saved queries and query history have no dedicated Zustand store — they persist through functions in `src/lib/metadata.ts`, which call the `appDb` IPC namespace directly (`useHistoryStore` only holds the in-memory copy)
 - MongoDB uses a separate `MongoManager` (`src/main/db/mongodb.ts`); document results are round-tripped through EJSON
 - Passwords are stored in the OS keyring via `@napi-rs/keyring` (service `com.rowport.app`, keyed by connection id), never in the app db
+- AI assistant providers (Ollama, OpenAI) live in `src/main/assistant/providers.ts`; credentials arrive per-call as IPC arguments and are never persisted by the main process
 
 ## UI strings (i18n)
 
-All UI text is keyed, not inline. Keys are typed from `src/lib/i18n/en.ts`; `vi.ts` mirrors it (falls back to `en` when a key is missing). Adding a string means adding it to `en.ts` (and `vi.ts` for parity) and referencing by key. Use the `useT()` hook in components; `t()` is the non-reactive imperative lookup.
+All UI text is keyed, not inline. Keys are a flat map typed from `src/lib/i18n/en.ts` (`export const en` + `TranslationKey`); `vi.ts` mirrors it (falls back to `en` when a key is missing). Adding a string means adding it to `en.ts` (and `vi.ts` for parity) and referencing by key. The `useT()` hook lives in `src/lib/i18n.ts`; `t()` from that module is the non-reactive imperative lookup.
 
 ## Conventions
 
@@ -65,6 +67,6 @@ All UI text is keyed, not inline. Keys are typed from `src/lib/i18n/en.ts`; `vi.
 - Explicit return types required (`nursery/useExplicitReturnType` in Biome, warn level with `allowExpressions`/`allowIifes`)
 - Biome formatting: single quotes, no semicolons, printWidth 100, no trailing commas, JSX double quotes
 - A11y rules that were never enforced by the old ESLint config stay off in `biome.json` (noStaticElementInteractions, useSemanticElements, useKeyWithClickEvents, noAutofocus, noNoninteractiveTabindex, noArrayIndexKey, noAssignInExpressions, noNonNullAssertion); re-enable incrementally rather than adding `biome-ignore` comments
-- Deliberate hook-dependency or `!important` choices use `// biome-ignore lint/...: reason` comments (see `ConnectionForm.tsx`, `MongoEditor.tsx`, `globals.css`)
+- Deliberate hook-dependency or `!important` choices use `// biome-ignore lint/...: reason` comments (see `NoSQLEditor.tsx`, `globals.css`)
 - Markdown files are not formatter-managed (Biome formats TS/JS/JSON/CSS only)
 - Tests live in `tests/unit`, `tests/integration`, and `tests/e2e`; see `vitest.config.ts` and `playwright.config.ts`
