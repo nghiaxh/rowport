@@ -50,14 +50,14 @@ pnpm install
 pnpm dev
 ```
 
-### Lint / Typecheck / Format
+### Lint / Typecheck
 
 ```bash
 pnpm lint
 
 pnpm typecheck
 
-pnpm format
+pnpm lint:fix
 ```
 
 ### Testing

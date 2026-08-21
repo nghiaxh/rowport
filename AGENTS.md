@@ -7,8 +7,7 @@ Electron desktop app for multi-database workflows (PostgreSQL, MySQL, SQLite, Mo
 - `pnpm dev` — compile main/preload, then run Vite dev server + Electron with hot reload (renderer HMR)
 - `pnpm typecheck` — runs BOTH `typecheck:node` (main/preload, tsconfig.node.json) and `typecheck:web` (renderer, tsconfig.web.json). The root `tsconfig.json` is a project reference file only
 - `pnpm lint` — Biome `check` (linter + formatter), config in `biome.json`
-- `pnpm lint:fix` — Biome `check --write`, applies safe autofixes
-- `pnpm format` — Biome `format --write` (single quotes, no semicolons, printWidth 100, no trailing commas)
+- `pnpm lint:fix` — Biome `check --write`, applies safe autofixes (includes formatting)
 - `pnpm build` — typecheck + `tsc` for main/preload/shared + `esbuild` bundle for preload + `vite build` for renderer
 - `pnpm build:win|mac|linux` — builds and packages with electron-builder
 - `pnpm test:unit` — Vitest unit tests (`tests/unit/`)
