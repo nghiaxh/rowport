@@ -380,7 +380,9 @@ export const en = {
   'assistant.thinking': 'Thinking...',
   'assistant.clearChat': 'Clear chat',
   'assistant.error': 'Assistant request failed',
-  'assistant.noModel': 'Select a model first'
+  'assistant.noModel': 'Select a model first',
+  'assistant.roleUser': 'You',
+  'assistant.roleAssistant': 'Assistant'
 } as const
 
 export type TranslationKey = keyof typeof en

@@ -4,6 +4,7 @@ import {
   Trash,
   SpinnerGap,
   WarningCircle,
+  X,
   Gear,
   Robot
 } from '@phosphor-icons/react'
@@ -29,7 +30,9 @@ export function AssistantPanel(): ReactElement {
   const clearMessages = useAssistantStore((s) => s.clearMessages)
   const [input, setInput] = useState('')
   const [showSettings, setShowSettings] = useState(false)
+  const [dismissedError, setDismissedError] = useState<string | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const activeTabId = useTabStore((s) => s.activeTabId)
   const tabs = useTabStore((s) => s.tabs)
@@ -45,6 +48,7 @@ export function AssistantPanel(): ReactElement {
     const schemaContext = activeTab ? buildSchemaContext(activeTab.connectionId) : undefined
     void sendMessage(text, schemaContext ?? undefined)
     setInput('')
+    if (textareaRef.current) textareaRef.current.style.height = 'auto'
   }
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>): void {
@@ -54,9 +58,18 @@ export function AssistantPanel(): ReactElement {
     }
   }
 
+  function handleInputChange(event: React.ChangeEvent<HTMLTextAreaElement>): void {
+    setInput(event.target.value)
+    const el = event.target
+    el.style.height = 'auto'
+    el.style.height = `${Math.min(el.scrollHeight, 120)}px`
+  }
+
+  const visibleError = error && error !== dismissedError ? error : null
+
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center gap-1.5 border-b border-app-edge px-3 py-2">
+      <div className="flex h-11 shrink-0 items-center gap-1.5 border-b border-app-edge px-3">
         <Robot size={13} className="text-app-fg-muted" />
         <span className="flex-1 truncate text-xs font-semibold text-app-fg">
           {t('panel.assistant')}
@@ -87,34 +100,51 @@ export function AssistantPanel(): ReactElement {
         {showSettings && <AssistantSettings onClose={() => setShowSettings(false)} />}
 
         {messages.length === 0 && !showSettings ? (
-          <p className="px-2 py-4 text-xs leading-relaxed text-app-fg-soft">
-            {t('assistant.welcome')}
-          </p>
+          <div className="flex h-full flex-col items-center justify-center gap-2 px-4 text-center">
+            <div className="flex size-10 items-center justify-center rounded-full bg-app-bg-muted">
+              <Robot size={20} className="text-app-fg-muted" />
+            </div>
+            <p className="text-xs font-medium text-app-fg">{t('assistant.welcome')}</p>
+            <p className="text-[11px] leading-relaxed text-app-fg-soft">
+              {t('assistant.welcomeHint')}
+            </p>
+          </div>
         ) : (
-          <div className="space-y-1.5">
+          <div className="space-y-3">
             {messages.map((msg, i) => (
               <div
                 key={i}
                 className={cn(
                   'rounded-lg px-3 py-2 text-xs',
                   msg.role === 'user'
-                    ? 'bg-app-accent/20 text-app-fg ml-6'
-                    : 'bg-app-bg-muted text-app-fg mr-6'
+                    ? 'ml-6 bg-app-accent/20 text-app-fg'
+                    : 'mr-6 bg-app-bg-muted text-app-fg'
                 )}
               >
-                <pre className="whitespace-pre-wrap break-words font-sans">{msg.content}</pre>
+                <span className="mb-1 block text-[10px] font-semibold uppercase tracking-wide text-app-fg-muted">
+                  {msg.role === 'user' ? t('assistant.roleUser') : t('assistant.roleAssistant')}
+                </span>
+                <pre className="whitespace-pre-wrap wrap-break-word font-sans">{msg.content}</pre>
               </div>
             ))}
             {loading && (
-              <div className="flex items-center gap-2 px-2 py-1.5 text-xs text-app-fg-muted">
+              <div className="flex items-center gap-2 px-3 py-2 text-xs text-app-fg-muted">
                 <SpinnerGap size={14} className="animate-spin" />
                 {t('assistant.thinking')}
               </div>
             )}
-            {error && (
-              <div className="flex items-start gap-2 px-2 py-1.5 text-xs text-app-danger">
+            {visibleError && (
+              <div className="mr-6 flex items-start gap-2 rounded-lg border border-app-danger/40 bg-app-danger/10 px-3 py-2 text-xs text-app-danger">
                 <WarningCircle size={14} className="mt-0.5 shrink-0" />
-                <span>{error}</span>
+                <span className="flex-1 wrap-break-word">{visibleError}</span>
+                <button
+                  type="button"
+                  onClick={() => setDismissedError(visibleError)}
+                  className="shrink-0 rounded p-0.5 transition-colors hover:bg-app-danger/20"
+                  title={t('common.close')}
+                >
+                  <X size={12} />
+                </button>
               </div>
             )}
             <div ref={messagesEndRef} />
@@ -125,12 +155,13 @@ export function AssistantPanel(): ReactElement {
       <div className="shrink-0 border-t border-app-edge p-2">
         <div className="flex items-center gap-2">
           <textarea
+            ref={textareaRef}
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             placeholder={t('assistant.placeholder')}
             rows={2}
-            className="flex-1 resize-none rounded-md border border-app-edge bg-app-bg px-3 py-2 text-xs text-app-fg outline-none focus:border-app-fg-muted"
+            className="max-h-30 flex-1 resize-none rounded-md border border-app-edge bg-app-bg px-3 py-2 text-xs text-app-fg outline-none focus:border-app-fg-muted"
           />
           <button
             type="button"
@@ -185,7 +216,7 @@ function AssistantSettings({ onClose }: { onClose: () => void }): ReactElement {
           id="assistant-provider"
           value={provider}
           onChange={(e) => setProvider(e.target.value as 'ollama' | 'openai')}
-          className="w-full rounded border border-app-edge bg-app-bg px-2 py-1.5 text-xs outline-none"
+          className="w-full rounded border border-app-edge bg-app-bg px-2 py-1.5 text-xs text-app-fg outline-none focus:border-app-fg-muted"
         >
           <option value="ollama">Ollama</option>
           <option value="openai">OpenAI</option>
@@ -201,7 +232,7 @@ function AssistantSettings({ onClose }: { onClose: () => void }): ReactElement {
             id="assistant-ollama-url"
             value={ollamaUrl}
             onChange={(e) => setOllamaUrl(e.target.value)}
-            className="w-full rounded border border-app-edge bg-app-bg px-2 py-1.5 text-xs outline-none"
+            className="w-full rounded border border-app-edge bg-app-bg px-2 py-1.5 text-xs text-app-fg outline-none focus:border-app-fg-muted"
           />
         </div>
       )}
@@ -217,7 +248,7 @@ function AssistantSettings({ onClose }: { onClose: () => void }): ReactElement {
             value={openaiApiKey}
             onChange={(e) => setOpenaiApiKey(e.target.value)}
             placeholder="sk-..."
-            className="w-full rounded border border-app-edge bg-app-bg px-2 py-1.5 text-xs outline-none"
+            className="w-full rounded border border-app-edge bg-app-bg px-2 py-1.5 text-xs text-app-fg outline-none focus:border-app-fg-muted"
           />
         </div>
       )}
@@ -230,7 +261,7 @@ function AssistantSettings({ onClose }: { onClose: () => void }): ReactElement {
           id="assistant-model"
           value={model}
           onChange={(e) => setModel(e.target.value)}
-          className="w-full rounded border border-app-edge bg-app-bg px-2 py-1.5 text-xs outline-none"
+          className="w-full rounded border border-app-edge bg-app-bg px-2 py-1.5 text-xs text-app-fg outline-none focus:border-app-fg-muted"
         >
           <option value="">
             {modelsLoading ? t('common.loading') : t('assistant.selectModel')}

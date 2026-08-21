@@ -380,5 +380,7 @@ export const vi: Record<TranslationKey, string> = {
   'assistant.thinking': 'Đang suy nghĩ...',
   'assistant.clearChat': 'Xóa cuộc trò chuyện',
   'assistant.error': 'Yêu cầu trợ lý thất bại',
-  'assistant.noModel': 'Hãy chọn một mô hình trước'
+  'assistant.noModel': 'Hãy chọn một mô hình trước',
+  'assistant.roleUser': 'Bạn',
+  'assistant.roleAssistant': 'Trợ lý'
 }
